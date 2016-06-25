@@ -1,0 +1,11 @@
+topic: ~GroupNames()
+language: enu
+
+u:(e:onStart) Please declare the firts group's name.
+    u1:(_[Tigers Owls]) Ok, the first group's name is $1 What is the second group's name? $group1=$1
+    u1:(_[Tigers Owls]) Righ, so the second group's name is $2 Good luck for both $group1 and $2 Now we're all set. Let's start! $group2=$1 $gr1_points=0 $gr2_points=0 $q1="What is 1+1?" $a1="2" ^gotoRandom(question)
+
+proposal: %question $q1
+    u1:(_[$group1 $group2] $a1) That's right! ["$1==$group1 $gr1_points=$gr1_points+1" "$gr2_points=$gr2_points+1"] ^nextProposal
+    
+proposal: Ok, the winner is ["$gr1_points>$gr2_points $group1" $group2]. Well done!
