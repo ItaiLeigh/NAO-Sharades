@@ -186,7 +186,7 @@
         gr1_score = self.memProx.getData("gr1_score")
         gr1_score += 1
         self.logger.info("gr1_score=%s" % gr1_score)
-        self.memProx.insertData("gr3_score", gr1_score)
+        self.memProx.insertData("gr1_score", gr1_score)
         andNow = self.memProx.getData("gr1_score")
         self.logger.info("and now gr1_score=%s" % andNow)
         self.onStopped()
@@ -195,7 +195,7 @@
         self.logger.info("In onInput_group2")
         gr2_score = self.memProx.getData("gr2_score")
         gr2_score += 1
-        self.memProx.insertData("gr4_score", gr2_score)
+        self.memProx.insertData("gr2_score", gr2_score)
         self.onStopped()
 
     def onInput_tryVal(self, p):
