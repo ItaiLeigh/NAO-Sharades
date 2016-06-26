@@ -25,7 +25,10 @@
                             <Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" />
                             <Input name="onStart" type="1" type_size="1" nature="2" inner="0" tooltip="Box behavior starts when a signal is received on this input." id="2" />
                             <Input name="onStop" type="1" type_size="1" nature="3" inner="0" tooltip="Box behavior stops when a signal is received on this input." id="3" />
-                            <Output name="onStopped" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished." id="4" />
+                            <Input name="gr2_points" type="0" type_size="1" nature="4" stm_value_name="gr2_points" inner="1" tooltip="gr2_points desc" id="4" />
+                            <Input name="gr1_points" type="0" type_size="1" nature="4" stm_value_name="gr1_points" inner="1" tooltip="gr1_points desc" id="5" />
+                            <Input name="tryVal" type="0" type_size="1" nature="4" stm_value_name="tryVal" inner="1" tooltip="tryVal desc" id="6" />
+                            <Output name="onStopped" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished." id="7" />
                             <Timeline enable="1" fps="25" start_frame="1" end_frame="-1" size="-1">
                                 <BehaviorLayer name="behavior_layer1">
                                     <BehaviorKeyframe name="Setup" index="1">
@@ -158,15 +161,66 @@
                                                 <Resource name="Speech" type="Lock" timeout="0" />
                                                 <Resource name="Speech recognition" type="Lock" timeout="0" />
                                             </Box>
+                                            <Box name="Python Script" id="1" localization="8" tooltip="This box contains a basic python script and can be used to create any python script box you would like.&#x0A;&#x0A;To edit its script, double-click on it." x="142" y="143">
+                                                <bitmap>media/images/box/box-python-script.png</bitmap>
+                                                <script language="4">
+                                                    <content>
+                                                        <![CDATA[class MyClass(GeneratedClass):
+    def __init__(self):
+        GeneratedClass.__init__(self)
+        self.memProx = ALProxy("ALMemory")
+        self.memProx.insertData("gr1_score", 5)
+        self.memProx.insertData("gr2_score", 5)
+
+    def onLoad(self):
+        #put initialization code here
+        pass
+
+    def onUnload(self):
+        #put clean-up code here
+        pass
+
+    def onInput_group1(self, p):
+        #self.onStopped() #activate the output of the box
+        self.logger.info("In onInput_group1")
+        gr1_score = self.memProx.getData("gr1_score")
+        gr1_score += 1
+        self.logger.info("gr1_score=%s" % gr1_score)
+        self.memProx.insertData("gr3_score", gr1_score)
+        andNow = self.memProx.getData("gr1_score")
+        self.logger.info("and now gr1_score=%s" % andNow)
+        self.onStopped()
+
+    def onInput_group2(self, p):
+        self.logger.info("In onInput_group2")
+        gr2_score = self.memProx.getData("gr2_score")
+        gr2_score += 1
+        self.memProx.insertData("gr4_score", gr2_score)
+        self.onStopped()
+
+    def onInput_tryVal(self, p):
+        gr1_score = self.memProx.getData("gr1_score")
+        self.logger.info("tryVal: gr1_score=%s" % gr1_score)]]>
+</content>
+                                                </script>
+                                                <Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" />
+                                                <Input name="group1" type="0" type_size="1" nature="2" inner="0" tooltip="Box behavior starts when a signal is received on this input." id="2" />
+                                                <Input name="group2" type="0" type_size="1" nature="2" inner="0" tooltip="" id="3" />
+                                                <Input name="tryVal" type="0" type_size="1" nature="2" inner="0" tooltip="" id="4" />
+                                                <Output name="onStopped" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished." id="5" />
+                                            </Box>
                                             <Link inputowner="3" indexofinput="2" outputowner="0" indexofoutput="1" />
-                                            <Link inputowner="0" indexofinput="4" outputowner="3" indexofoutput="4" />
+                                            <Link inputowner="0" indexofinput="7" outputowner="3" indexofoutput="4" />
+                                            <Link inputowner="1" indexofinput="3" outputowner="0" indexofoutput="4" />
+                                            <Link inputowner="1" indexofinput="2" outputowner="0" indexofoutput="5" />
+                                            <Link inputowner="1" indexofinput="4" outputowner="0" indexofoutput="6" />
                                         </Diagram>
                                     </BehaviorKeyframe>
                                 </BehaviorLayer>
                             </Timeline>
                         </Box>
                         <Link inputowner="1" indexofinput="2" outputowner="0" indexofoutput="2" />
-                        <Link inputowner="0" indexofinput="4" outputowner="1" indexofoutput="4" />
+                        <Link inputowner="0" indexofinput="4" outputowner="1" indexofoutput="7" />
                     </Diagram>
                 </BehaviorKeyframe>
             </BehaviorLayer>

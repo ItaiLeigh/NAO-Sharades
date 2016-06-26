@@ -1,0 +1,17 @@
+topic: ~GroupNames()
+language: enu
+
+u:(e:onStart) Welcome Family!! 
+u:(Lets Play) Yipee!! What game are you guys in mood of ?
+   u1:(Trivia) Good Choice!! Lets play Trivia. ^goto(Trivia)
+
+proposal: %Trivia Please \pau=600\ declare the first group's name.
+    u1:(_[Tigers Owls]) Ok, the first group's name is $1 What is the second group's name? $group1=$1
+        u2:(_[Tigers Owls]) Right, so the second group's name is $1 Good luck for both $group1 and $1 Now we're all set. Let's start! $group2=$1 $q1="What is 1 plus 1?" $a1="2" ^gotoRandom(question)
+
+proposal: %question $q1
+    u1:(_[$group1 $group2] $a1) That's right! ^first["$1==$group1 $gr1_points=1" "$gr2_points=1"] ^nextProposal
+
+proposal: \pau=1000\ $group1 has $gr3_score points and $group2 has $gr4_score $tryVal=0  
+
+proposal: Ok, the winner is ^first["$gr1_score>$gr2_score $group1" $group2]. Well done!

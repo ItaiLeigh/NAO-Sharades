@@ -14,5 +14,9 @@
    <nature>interactive</nature>
    <permissions/>
   </behaviorContent>
+  <behaviorContent path="points">
+   <nature>interactive</nature>
+   <permissions/>
+  </behaviorContent>
  </contents>
 </package>
